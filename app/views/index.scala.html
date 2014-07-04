@@ -1,0 +1,60 @@
+@(semanas: List[semana])
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Computers database</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("css/bootstrap.css")"> 
+        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("css/bootstrap-reponsive.css")"> 
+    </head>
+    <body>
+  <div class="container">
+ 	
+ 	<div class="well">
+  	<h1>Minhas Metas</h1>
+	</div>
+	
+	<div class="well well-blockquote">  
+		<h4>Cadastrar Nova Meta: <br></h4>
+		<form class="form-control" action="/save" method="POST">
+		<h5>
+		Nome da meta: <input type="text" name="nome" style="width:375px"/>
+		Prioriadade: <input type= "number" name="prioridade" min="1"style="width:40px"/>
+		Semana:  <input type= "number" name="id" min="1" max="6" style="width:40px"/>
+		<input type="submit" value="Cadastrar" class= "btn btn-primary" style="vertical-align: top;"/>
+		</h5>
+		</form>
+	</div>
+	
+	<div class="well">
+	@for(semana <- semanas) {
+		<div class="well well-small">
+		<h4>Semana #@semana.id</h4><br>
+		<table class="table">
+		@for(meta <- semana.getMetas()) {
+			<tr>
+			<td style="font-size:18px">
+			<b><i>Meta:</i></b> @meta.nome
+			</td>
+			<td style="text-align: right;width:120px;">
+			@if(meta.completa){
+			<input type="button" value="Finalizada!" class= "btn btn-success">
+			}else{
+			<form action="/complete/@meta.id" method="POST">
+			<input type="submit" value="Completar" class= "btn btn-primary">
+			</form>
+			}
+			</td>
+			<td  style="text-align: center; width:100px;">
+			<form action="/delete/@meta.id" method="POST">
+			<input type="submit" value="Deletar" class="btn btn-danger">
+			</form>
+			</tr>
+		
+		}
+		</table>
+</div>
+	}
+	</div>
+	</div>
+	</body>
+
